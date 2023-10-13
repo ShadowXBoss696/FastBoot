@@ -1,0 +1,26 @@
+# Miscellaneous
+.DS_Store
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+MANIFEST
+
+# Unit test / coverage reports
+.tox/
+.ruff_cache/
+
+# Environments
+.env
+.venv/
+
+# IntelliJ related
+.idea
+
+# VSCode related
+.vscode
