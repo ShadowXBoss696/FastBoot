@@ -1,3 +1,3 @@
-from fastboot.utils.version import extract_version
+from fastboot.utils.version import read_version
 
-__version__ = extract_version()
+__version__ = read_version()

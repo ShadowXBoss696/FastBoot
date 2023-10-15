@@ -1,13 +1,19 @@
+import functools
 import importlib.metadata
 import pathlib
 import tomllib
 
+DEV_SUFFIX: str = "dev"
 
-def extract_version() -> str:
+
+@functools.cache
+def read_version() -> str:
+    """
+    Extracts the version
+    """
     try:
         root_dir = pathlib.Path(__file__).parents[2]
         with open(root_dir / "pyproject.toml", "rb") as pyproject_file:
-            version = tomllib.load(pyproject_file)["tool"]["poetry"]["version"]
-            return f"{version}-dev"
+            return tomllib.load(pyproject_file)["tool"]["poetry"]["version"] + "-" + DEV_SUFFIX
     except FileNotFoundError:
         return importlib.metadata.version(__package__ or __name__.split(".", maxsplit=1)[0])
