@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fastboot"
-version = "0.1.1"
+version = "0.0.0.post3.dev0+52d5c0e"
 description = ""
 authors = ["Arpan Mahanty <arpan.mahanty.007@gmail.com>"]
 license = "MIT"

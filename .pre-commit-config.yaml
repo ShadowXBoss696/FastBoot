@@ -18,8 +18,9 @@ repos:
     hooks:
       - id: dynamic-versioning
         name: Project Dynamic Versioning
-        entry: poetry
-        args: ["run", "poetry-dynamic-versioning"]
+        entry: poetry run poetry-dynamic-versioning
+        language: system
+        pass_filenames: false
         always_run: true
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
