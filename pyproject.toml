@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fastboot"
-version = "0.0.0.post3.dev0+52d5c0e"
+version = "0.0.1"
 description = ""
 authors = ["Arpan Mahanty <arpan.mahanty.007@gmail.com>"]
 license = "MIT"
@@ -14,7 +14,6 @@ gunicorn = "^21.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.4.0"
-poetry-dynamic-versioning = "^1.2.0"
 
 [build-system]
 requires = ["poetry-core"]

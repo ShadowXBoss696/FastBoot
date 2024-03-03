@@ -1,1 +1,3 @@
-__version__ = "0.0.0.post3.dev0+52d5c0e"
+from fastboot.utils.version import read_version
+
+__version__ = read_version()
