@@ -1,3 +1,7 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "fastboot"
 version = "0.1.0"
@@ -8,16 +12,39 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-uvicorn = "^0.27.1"
-gunicorn = "^21.2.0"
-
+pydantic = "^2.6.3"
+pydantic-settings = "^2.2.1"
+fastapi = "^0.110.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.4.0"
+uvicorn = "^0.28.0"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.poetry.group.test.dependencies]
+pytest = "^8.1.1"
+pytest-cov = "^4.1.0"
+
+[tool.pytest.ini_options]
+testpaths = ['tests']
+addopts = "--cov"
+
+[tool.coverage.run]
+source = ["fastboot"]
+branch = true
+
+[tool.coverage.report]
+precision = 2
+# fail_under = 98.35
+show_missing = true
+skip_covered = true
+skip_empty = true
+exclude_lines = [
+    "pragma: no cover",
+    "pragma: nocover",
+    "if TYPE_CHECKING:",
+    "if typing.TYPE_CHECKING:",
+    "raise NotImplementedError",
+]
 
 [tool.black]
 line-length = 120
@@ -29,41 +56,32 @@ include = '\.pyi?$'
 target-version = "py311"
 line-length = 120
 fix = true
+unsafe-fixes = true
+
+[tool.ruff.lint]
 select = [
-    # flake8-2020
-    "YTT",
-    # flake8-bandit
-    "S",
-    # flake8-bugbear
-    "B",
-    # flake8-builtins
-    "A",
-    # flake8-comprehensions
-    "C4",
-    # flake8-debugger
-    "T10",
-    # flake8-simplify
-    "SIM",
-    # isort
-    "I",
-    # mccabe
-    "C90",
-    # pycodestyle
-    "E", "W",
-    # pyflakes
-    "F",
-    # pygrep-hooks
-    "PGH",
-    # pyupgrade
-    "UP",
-    # ruff
-    "RUF",
-    # tryceratops
-    "TRY",
+    "YTT",      # flake8-2020
+    "S",        # flake8-bandit
+    "B",        # flake8-bugbear
+    "A",        # flake8-builtins
+    "C4",       # flake8-comprehensions
+    "T10",      # flake8-debugger
+    "SIM",      # flake8-simplify
+    "I",        # isort
+    "C90",      # mccabe
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "PGH",      # pygrep-hooks
+    "UP",       # pyupgrade
+    "RUF",      # ruff
+    "TRY",      # tryceratops
 ]
 ignore = [
-    # LineTooLong
-    "E501",
-    # DoNotAssignLambda
-    "E731",
+    "E501",     # LineTooLong
+    "E731",     # DoNotAssignLambda
+]
+
+[tool.ruff.lint.per-file-ignores]
+"test_*.py" = [
+    "S101"      # Assert
 ]

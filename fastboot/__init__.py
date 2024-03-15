@@ -1,9 +1,9 @@
 import importlib.metadata
 import tomllib
 
-from fastboot.constants import PROJECT_DIR
+from fastboot.globals import PROJECT_DIR
 
-__all__ = ["__version__", "__author__"]
+__all__ = []
 
 # Project Information
 __author__ = ["Arpan Mahanty <arpan.mahanty.007@gmail.com>"]

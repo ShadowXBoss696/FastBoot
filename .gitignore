@@ -24,3 +24,5 @@ MANIFEST
 
 # VSCode related
 .vscode
+
+.coverage
