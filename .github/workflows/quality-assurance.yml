@@ -1,0 +1,44 @@
+# This workflow will perform quality analysis for current codebase to ensure safety from security faults
+
+name: Quality Assurance
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+  schedule:
+    #        ┌───────────── minute (0 - 59)
+    #        │ ┌───────────── hour (0 - 23)
+    #        │ │ ┌───────────── day of the month (1 - 31)
+    #        │ │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+    #        │ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+    #        │ │ │ │ │
+    #        * * * * *
+    - cron: '0 0 * * 0'
+
+jobs:
+  analyze:
+    name: Analyze Code Quality
+    runs-on: 'ubuntu-latest'
+    timeout-minutes: 360
+
+    permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Analyzer
+      uses: github/codeql-action/init@v3
+      with:
+        languages: python
+
+    - name: Perform Quality Analysis
+      uses: github/codeql-action/analyze@v3
