@@ -8,3 +8,4 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/8bbfbab0e5cd03667256/maintainability)](https://codeclimate.com/github/ShadowXBoss696/FastBoot/maintainability)
 [![Vulnerabilities](https://snyk.io/test/github/ShadowXBoss696/FastBoot/badge.svg)](https://snyk.io/test/github/ShadowXBoss696/FastBoot)
 [![Code Analysis](https://github.com/ShadowXBoss696/FastBoot/actions/workflows/quality-assurance.yml/badge.svg)](https://github.com/ShadowXBoss696/FastBoot/actions/workflows/quality-assurance.yml)
+[![Sanity Suite](https://github.com/ShadowXBoss696/FastBoot/actions/workflows/sanity-suite.yml/badge.svg)](https://github.com/ShadowXBoss696/FastBoot/actions/workflows/sanity-suite.yml)
