@@ -42,4 +42,4 @@ jobs:
         ./cc-test-reporter before-build
         poetry run pytest
         poetry run coverage xml
-        ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
+        ./cc-test-reporter after-build --coverage-input-type coverage.py --exit-code $?
