@@ -41,4 +41,4 @@ jobs:
       run: |
         ./cc-test-reporter before-build
         poetry run pytest
-        ./cc-test-reporter after-build --exit-code $?
+        ./cc-test-reporter after-build --coverage-input-type coverage.py --exit-code $?
