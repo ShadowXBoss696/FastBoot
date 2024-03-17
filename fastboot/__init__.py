@@ -14,6 +14,6 @@ try:
     with open(PROJECT_DIR / "pyproject.toml", mode="rb") as pyproject_file:
         __version__: str = tomllib.load(pyproject_file)["tool"]["poetry"]["version"]
 
-except FileNotFoundError:
+except FileNotFoundError:  # pragma: no cover
     # Read from the package metadata
     __version__: str = importlib.metadata.version(__package__ or __name__.split(".", maxsplit=1)[0])
