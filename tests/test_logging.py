@@ -6,7 +6,7 @@ from _pytest.capture import CaptureFixture
 from fastboot.logging import configure_logging
 
 LOGGER_NAME: str = "fastboot.testing"
-TEST_MESSAGE_FMT: str = "This is a %(levelname)s message."
+TEST_MESSAGE_FMT: str = "This is a %(level)s message."
 
 LOG_ENABLED_FOR: dict[int, bool] = {
     logging.DEBUG: False,
@@ -28,7 +28,7 @@ def test_configure_logging_default(capsys: CaptureFixture[str]) -> None:
         pytest.fail("Failed to configure loggers with default logging configuration")
 
     # Assert logging
-    assert_logging(capsys)
+    assert_logging(capsys)  # TODO: Is it really necessary ?
 
 
 def assert_logging(capsys: CaptureFixture[str]) -> None:
@@ -38,7 +38,7 @@ def assert_logging(capsys: CaptureFixture[str]) -> None:
 
     # Start capturing logs
     for level, should_log in LOG_ENABLED_FOR.items():
-        test_msg: str = TEST_MESSAGE_FMT % {"levelname": logging.getLevelName(level).lower()}
+        test_msg: str = TEST_MESSAGE_FMT % {"level": logging.getLevelName(level).lower()}
 
         # Try logging
         logger.log(msg=test_msg, level=level)
