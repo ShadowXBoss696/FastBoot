@@ -1,13 +1,12 @@
 import logging
 
 import pytest
+from _pytest.capture import CaptureFixture
 
 from fastboot.logging import configure_logging
 
-from .utils import LocalLogCaptureFixture
-
 LOGGER_NAME: str = "fastboot.testing"
-TEST_MESSAGE: str = "This is a default test message."
+TEST_MESSAGE_FMT: str = "This is a %(levelname)s message."
 
 LOG_ENABLED_FOR: dict[int, bool] = {
     logging.DEBUG: False,
@@ -18,7 +17,7 @@ LOG_ENABLED_FOR: dict[int, bool] = {
 }
 
 
-def test_configure_logging_default(local_caplog) -> None:
+def test_configure_logging_default(capsys: CaptureFixture[str]) -> None:
     """Tests loggers default configuration"""
 
     # noinspection PyBroadException
@@ -29,25 +28,24 @@ def test_configure_logging_default(local_caplog) -> None:
         pytest.fail("Failed to configure loggers with default logging configuration")
 
     # Assert logging
-    assert_logging(local_caplog)
+    assert_logging(capsys)
 
 
-def assert_logging(local_caplog: LocalLogCaptureFixture) -> None:
+def assert_logging(capsys: CaptureFixture[str]) -> None:
     # Asserts if logging is working as expected
 
     logger = logging.getLogger(LOGGER_NAME)
 
     # Start capturing logs
-    with local_caplog.capture(logger):
-        for level, should_log in LOG_ENABLED_FOR.items():
-            # Clear any existing logs
-            local_caplog.clear()
+    for level, should_log in LOG_ENABLED_FOR.items():
+        test_msg: str = TEST_MESSAGE_FMT % {"levelname": logging.getLevelName(level).lower()}
 
-            # Try logging
-            logger.log(msg=TEST_MESSAGE, level=level)
+        # Try logging
+        logger.log(msg=test_msg, level=level)
 
-            # Test message
-            if should_log:
-                assert TEST_MESSAGE in local_caplog.text
-            else:
-                assert TEST_MESSAGE not in local_caplog.text
+        # Test message
+        console = capsys.readouterr()
+        if should_log:
+            assert test_msg in console.out
+        else:
+            assert test_msg not in console.out

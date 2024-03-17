@@ -5,7 +5,7 @@ from typing import Any
 DEFAULT_LOGGING_CONFIG: dict[str, Any] = {
     "version": 1,
     "disable_existing_loggers": False,
-    "formatters": {"default": {"()": "logging.Formatter", "fmt": "%(levelname)s %(message)s"}},
+    "formatters": {"default": {"()": "logging.Formatter", "fmt": "%(levelname)-8s: %(message)s"}},
     "handlers": {
         "default": {
             "formatter": "default",
