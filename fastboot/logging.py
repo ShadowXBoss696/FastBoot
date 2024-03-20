@@ -33,20 +33,34 @@ def configure_logging(config: dict[str, Any] | str | None = None) -> None:
 
         elif config.endswith(".json"):
             # Read the logging configuration from a JSON file.
-            import json
-
-            with open(config) as f:
-                loaded_config: dict[str, Any] = json.load(f)
-                dictConfig(loaded_config)
+            jsonConfig(config)
 
         elif config.endswith((".yaml", ".yml")):
             # Read the logging configuration from a YAML file.
-            import yaml
-
-            with open(config) as f:
-                loaded_config: dict[str, Any] = yaml.safe_load(f)
-                dictConfig(loaded_config)
+            yamlConfig(config)
 
         else:
             # Read the logging configuration from a ConfigParser-format file.
             fileConfig(config, disable_existing_loggers=False)
+
+
+# noinspection PyPep8Naming
+def jsonConfig(filePath: str) -> None:
+    """Reads the logging configuration from a JSON file"""
+
+    import json
+
+    with open(filePath) as f:
+        loaded_config: dict[str, Any] = json.load(f)
+        dictConfig(loaded_config)
+
+
+# noinspection PyPep8Naming
+def yamlConfig(filePath: str) -> None:
+    """Reads the logging configuration from a YAML file"""
+
+    import yaml
+
+    with open(filePath) as f:
+        loaded_config: dict[str, Any] = yaml.safe_load(f)
+        dictConfig(loaded_config)
