@@ -1,4 +1,5 @@
 from logging.config import dictConfig, fileConfig
+from os import path
 from typing import Any
 
 # Define default logging configuration
@@ -26,27 +27,65 @@ def configure_logging(config: dict[str, Any] | str | None = None) -> None:
     dictConfig(DEFAULT_LOGGING_CONFIG)
 
     # load the given config
-    if config:  # pragma: no cover
-        if isinstance(config, dict):
-            # Read the logging configuration from a dictionary.
-            dictConfig(config)
+    if not config:
+        return  # no-op
 
-        elif config.endswith(".json"):
-            # Read the logging configuration from a JSON file.
-            import json
+    elif isinstance(config, dict):
+        # Read the logging configuration from a dictionary.
+        dictConfig(config)
 
-            with open(config) as f:
-                loaded_config: dict[str, Any] = json.load(f)
-                dictConfig(loaded_config)
+    elif config.endswith(".json"):
+        # Read the logging configuration from a JSON file.
+        jsonConfig(config)
 
-        elif config.endswith((".yaml", ".yml")):
-            # Read the logging configuration from a YAML file.
-            import yaml
+    elif config.endswith((".yaml", ".yml")):
+        # Read the logging configuration from a YAML file.
+        yamlConfig(config)
 
-            with open(config) as f:
-                loaded_config: dict[str, Any] = yaml.safe_load(f)
-                dictConfig(loaded_config)
+    else:
+        # Read the logging configuration from a ConfigParser-format file.
+        fileConfig(config, disable_existing_loggers=False)
 
-        else:
-            # Read the logging configuration from a ConfigParser-format file.
-            fileConfig(config, disable_existing_loggers=False)
+
+# noinspection PyPep8Naming
+def jsonConfig(fname: str) -> None:
+    """Reads the logging configuration from a JSON file"""
+    import json
+
+    # Validate config file
+    if not path.exists(fname):
+        raise FileNotFoundError(f"{fname} doesn't exist")
+    elif not path.getsize(fname):
+        raise RuntimeError(f"{fname} is an empty file")
+
+    # Read configuration
+    try:
+        with open(fname) as f:
+            loaded_config: dict[str, Any] = json.load(f)
+    except ValueError as e:
+        raise RuntimeError(f"{fname} is invalid: {e}") from e
+
+    # Apply configuration
+    dictConfig(loaded_config)
+
+
+# noinspection PyPep8Naming
+def yamlConfig(fname: str) -> None:
+    """Reads the logging configuration from a YAML file"""
+    import yaml
+
+    # Validate config file
+    if not path.exists(fname):
+        raise FileNotFoundError(f"{fname} doesn't exist")
+    elif not path.getsize(fname):
+        raise RuntimeError(f"{fname} is an empty file")
+
+    # Read configuration
+    try:
+        with open(fname) as f:
+            loaded_config: dict[str, Any] = yaml.safe_load(f)
+    except ValueError as e:
+        raise RuntimeError(f"{fname} is invalid: {e}") from e
+
+    # Apply configuration
+    dictConfig(loaded_config)
