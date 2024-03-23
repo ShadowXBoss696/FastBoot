@@ -1,23 +1,35 @@
 import logging
+import uuid
 
 import pytest
 from _pytest.capture import CaptureFixture
 
 from fastboot.logging import configure_logging
 
-LOGGER_NAME: str = "fastboot.testing"
-TEST_MESSAGE_FMT: str = "This is a %(level)s message."
 
-LOG_ENABLED_FOR: dict[int, bool] = {
-    logging.DEBUG: False,
-    logging.INFO: True,
-    logging.WARN: True,
-    logging.ERROR: True,
-    logging.FATAL: True,
-}
+def assert_logging(capsys: CaptureFixture[str], logger: logging.Logger, expected_log_level: int = logging.INFO) -> None:
+    """Asserts if logging is working as expected"""
+
+    for level_name, level in logging.getLevelNamesMapping().items():
+        # Build message to log
+        message_id: str = str(uuid.uuid4())  # to ensure unique log messages during each test
+        message: str = f"This is a {level_name} message (msg_id: {message_id})"
+
+        # Try logging
+        logger.log(msg=message, level=level)
+
+        # Test message
+        console = capsys.readouterr()
+        if level >= expected_log_level:
+            assert message in console.out
+        else:
+            assert message not in console.out
 
 
-def test_configure_logging_default(capsys: CaptureFixture[str]) -> None:
+# // default log config ------------------------------------------
+
+
+def test_logging_default(capsys: CaptureFixture[str]) -> None:
     """Tests loggers default configuration"""
 
     # noinspection PyBroadException
@@ -28,24 +40,5 @@ def test_configure_logging_default(capsys: CaptureFixture[str]) -> None:
         pytest.fail("Failed to configure loggers with default logging configuration")
 
     # Assert logging
-    assert_logging(capsys)  # TODO: Is it really necessary ?
-
-
-def assert_logging(capsys: CaptureFixture[str]) -> None:
-    # Asserts if logging is working as expected
-
-    logger = logging.getLogger(LOGGER_NAME)
-
-    # Start capturing logs
-    for level, should_log in LOG_ENABLED_FOR.items():
-        test_msg: str = TEST_MESSAGE_FMT % {"level": logging.getLevelName(level).lower()}
-
-        # Try logging
-        logger.log(msg=test_msg, level=level)
-
-        # Test message
-        console = capsys.readouterr()
-        if should_log:
-            assert test_msg in console.out
-        else:
-            assert test_msg not in console.out
+    logger = logging.getLogger("fastboot.testing")
+    assert_logging(capsys, logger)
