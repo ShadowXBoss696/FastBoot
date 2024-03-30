@@ -8,7 +8,7 @@ __author__ = ["Arpan Mahanty <arpan.mahanty.007@gmail.com>"]
 __license__ = "MIT"
 
 try:
-    from fastboot.config import PROJECT_DIR
+    from fastboot.settings import PROJECT_DIR
 
     # Read version from pyproject file during development
     with open(PROJECT_DIR / "pyproject.toml", mode="rb") as pyproject_file:
