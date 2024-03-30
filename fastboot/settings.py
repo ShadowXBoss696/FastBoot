@@ -1,7 +1,15 @@
 import pathlib
 from typing import Any
 
-PROJECT_DIR: pathlib.Path = pathlib.Path(__file__).parents[1]
+# Known Paths
+PROJECT_ROOT: pathlib.Path = pathlib.Path(__file__).parents[1]
+PROJECT_CONFIG_TOML: pathlib.Path = PROJECT_ROOT / "pyproject.toml"
+
+# Settings:
+DEVELOP: bool = PROJECT_CONFIG_TOML.exists()
+
+
+# Settings Schema
 
 KNOWN_SETTINGS: dict[str, Any] = {
     "port": {},
