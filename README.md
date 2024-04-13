@@ -1,4 +1,15 @@
-# ![banner.png](docs/assets/banner.png)
+<p align="center">
+  <picture>
+    <source srcset="docs/assets/banner-dark.png" media="(prefers-color-scheme: dark)">
+    <img alt="FastBoot" src="docs/assets/banner.png">
+  </picture>
+</p>
+
+<p align="center">
+  <em>An HTTP web server, for Python.</em>
+</p>
+
+---
 
 [![License](https://img.shields.io/github/license/ShadowXBoss696/FastBoot)](https://github.com/ShadowXBoss696/FastBoot/blob/develop/LICENSE)
 [![Contributors](https://img.shields.io/github/contributors/ShadowXBoss696/FastBoot)](https://github.com/ShadowXBoss696/FastBoot/graphs/contributors)
