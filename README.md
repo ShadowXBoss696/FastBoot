@@ -1,4 +1,4 @@
-# FastBoot
+# ![banner.png](docs/assets/banner.png)
 
 [![License](https://img.shields.io/github/license/ShadowXBoss696/FastBoot)](https://github.com/ShadowXBoss696/FastBoot/blob/develop/LICENSE)
 [![Contributors](https://img.shields.io/github/contributors/ShadowXBoss696/FastBoot)](https://github.com/ShadowXBoss696/FastBoot/graphs/contributors)
