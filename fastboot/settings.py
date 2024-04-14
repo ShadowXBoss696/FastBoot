@@ -9,6 +9,9 @@ PROJECT_CONFIG_TOML: pathlib.Path = PROJECT_ROOT / "pyproject.toml"
 
 DEVELOP: bool = PROJECT_CONFIG_TOML.exists()
 
+
+# ---------------------------------------------------------------------------------
+
 PREF_DEF_REGISTRY: list[type["Preference"]] = []
 
 
