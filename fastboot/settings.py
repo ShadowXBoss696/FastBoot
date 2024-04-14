@@ -101,6 +101,8 @@ class Preference(metaclass=ABCMeta):
 
 
 class WorkerCount(Preference):
+    # TODO: This is for demo only
+
     name = "worker"
     default = 1
     desc = """\
