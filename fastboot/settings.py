@@ -35,7 +35,7 @@ class AppPreferences:
         else:
             super().__setattr__(name, value)
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         lines = []
         kmax: int = max(len(k) for k in self._store)
         vmax: int = 30
@@ -50,8 +50,6 @@ class AppPreferences:
             lines.append(f"{key:{kmax}}: {value_str}")
 
         return os.linesep.join(lines)
-
-    __repr__ = __str__
 
 
 class Preference(metaclass=ABCMeta):
