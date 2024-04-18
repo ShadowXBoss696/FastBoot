@@ -51,11 +51,26 @@ def preferences() -> AppPreferences:
     yield AppPreferences()
 
 
+# Definition --------------------------------------
+
+
 def test_prefs_are_registered() -> None:
     """Test if the preferences are registered properly or not"""
 
     # At least one preference must be registered
     assert len(PREF_DEF_REGISTRY) > 0, "No preference registered"
+
+
+def test_invalid_pref_definition() -> None:
+    """Test that error is raised if preference definition is invalid"""
+
+    with pytest.raises(TypeError):
+        # Declare a invalid preference definition
+        class InvalidPreference(Preference):
+            desc = "This is invalid definition and must throw exception"
+
+
+# App Preferences ----------------------------------
 
 
 def test_app_preference_getter_and_setters(preferences: AppPreferences):
