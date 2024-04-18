@@ -41,7 +41,7 @@ class AppPreferences:
         vmax: int = 30
 
         for key in self._store:
-            value = self._store[key]
+            value = self._store[key].get_value()
             if callable(value):
                 value = f"<{value.__qualname__}()>"
             value_str = str(value)

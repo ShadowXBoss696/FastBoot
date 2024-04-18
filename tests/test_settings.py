@@ -115,4 +115,5 @@ def test_print_app_preference(preferences: AppPreferences) -> None:
     print(output)
 
     assert len(output) > 0, "No output printed"
-    assert "dummy_pref" in output, "Dummy preference value is not printed correctly"
+    assert "dummy_pref" in output, "Dummy preference key is not printed correctly"
+    assert "default_value" in output or "new_value" in output, "Dummy preference value is not printed correctly"
