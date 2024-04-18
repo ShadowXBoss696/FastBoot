@@ -43,9 +43,7 @@ def teardown_module(module):
     """teardown any state that was previously setup with a setup_module method."""
 
     # Remove dummy registered preferences
-    for i in range(0, len(PREF_DEF_REGISTRY)):
-        if PREF_DEF_REGISTRY[i].__class__.__name__ in ["DummyPreference"]:
-            del PREF_DEF_REGISTRY[i]
+    PREF_DEF_REGISTRY[:] = [pref for pref in PREF_DEF_REGISTRY if pref.__class__.__name__ not in ["DummyPreference"]]
 
 
 @pytest.fixture
