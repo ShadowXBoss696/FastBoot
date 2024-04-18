@@ -84,7 +84,7 @@ def test_invalid_pref_definition() -> None:
 # App Preferences ----------------------------------
 
 
-def test_app_preference_getter_and_setters(preferences: AppPreferences):
+def test_app_preference_getters_and_setters(preferences: AppPreferences):
     """Test if getting and setting preference is properly working or not."""
 
     # Test default value
@@ -98,6 +98,14 @@ def test_app_preference_getter_and_setters(preferences: AppPreferences):
     assert (
         preferences.dummy_pref == "new_value"
     ), f"New value mismatch. Expected: 'new_value', Found: {preferences.dummy_pref}"
+
+
+def test_app_preference_missing_configuration(preferences: AppPreferences) -> None:
+    """Test that error is raised if you try to access a configuration which is not defined"""
+
+    with pytest.raises(AttributeError):
+        # Try to access a setting which is not defined.
+        print(preferences.undefined_configuration)
 
 
 def test_print_app_preference(preferences: AppPreferences) -> None:
