@@ -9,7 +9,6 @@ PROJECT_CONFIG_TOML: pathlib.Path = PROJECT_ROOT / "pyproject.toml"
 
 DEVELOP: bool = PROJECT_CONFIG_TOML.exists()
 
-
 # ---------------------------------------------------------------------------------
 
 PREF_DEF_REGISTRY: list[type["Preference"]] = []
@@ -31,7 +30,7 @@ class AppPreferences:
         return self._store[name].get_value()
 
     def __setattr__(self, name: str, value: Any) -> None:
-        if name in self._store:
+        if name != "_store" and name in self._store:
             self._store[name].set_value(value)
         else:
             super().__setattr__(name, value)
@@ -51,6 +50,8 @@ class AppPreferences:
             lines.append(f"{key:{kmax}}: {value_str}")
 
         return os.linesep.join(lines)
+
+    __repr__ = __str__
 
 
 class Preference(metaclass=ABCMeta):
@@ -82,6 +83,10 @@ class Preference(metaclass=ABCMeta):
             if not hasattr(cls, attr_key):
                 raise TypeError(f"Attribute '{attr_key}' missing for class {cls.__name__}")
 
+        # Wrap validator with staticmethod annotation
+        if cls.validator:
+            cls.validator = staticmethod(cls.validator)
+
         # Register the settings
         PREF_DEF_REGISTRY.append(cls)
 
@@ -99,20 +104,21 @@ class Preference(metaclass=ABCMeta):
 
 # ---------------------------------------------------------------------------------
 
-
-class WorkerCount(Preference):
-    # TODO: This is for demo only
-
-    name = "worker"
-    default = 1
-    desc = """\
-        The number of worker processes for handling requests.
-
-        A positive integer generally in the ``2-4 x $(NUM_CORES)`` range.
-        You'll want to vary this a bit to find the best for your particular
-        application's work load.
-
-        By default, the value of the ``WEB_CONCURRENCY`` environment variable,
-        which is set by some Platform-as-a-Service providers such as Heroku. If
-        it is not defined, the default is ``1``.
-        """
+#
+# === For Demo Only ===
+#
+# class WorkerCount(Preference):
+#
+#     name = "worker"
+#     default = 1
+#     desc = """\
+#         The number of worker processes for handling requests.
+#
+#         A positive integer generally in the ``2-4 x $(NUM_CORES)`` range.
+#         You'll want to vary this a bit to find the best for your particular
+#         application's work load.
+#
+#         By default, the value of the ``WEB_CONCURRENCY`` environment variable,
+#         which is set by some Platform-as-a-Service providers such as Heroku. If
+#         it is not defined, the default is ``1``.
+#         """
