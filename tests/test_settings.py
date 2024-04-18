@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from fastboot.settings import PREF_DEF_REGISTRY, AppPreferences, Preference
@@ -38,12 +40,21 @@ def setup_module(module) -> None:
         default = "default_value"
         validator = text_is_not_empty
 
+    class DummyPreferenceWithCallableValue(Preference):
+        name = "dummy_preference_with_callable_value"
+        default = math.sqrt
+        desc = """\
+            This is a dummy preference with a method passed as value
+            """
+
 
 def teardown_module(module):
     """teardown any state that was previously setup with a setup_module method."""
 
     # Remove dummy registered preferences
-    PREF_DEF_REGISTRY[:] = [pref for pref in PREF_DEF_REGISTRY if pref.__class__.__name__ not in ["DummyPreference"]]
+    PREF_DEF_REGISTRY[:] = [
+        pref for pref in PREF_DEF_REGISTRY if not pref.__class__.__name__.startswith("DummyPreference")
+    ]
 
 
 @pytest.fixture
@@ -51,11 +62,26 @@ def preferences() -> AppPreferences:
     yield AppPreferences()
 
 
+# Definition --------------------------------------
+
+
 def test_prefs_are_registered() -> None:
     """Test if the preferences are registered properly or not"""
 
     # At least one preference must be registered
     assert len(PREF_DEF_REGISTRY) > 0, "No preference registered"
+
+
+def test_invalid_pref_definition() -> None:
+    """Test that error is raised if preference definition is invalid"""
+
+    with pytest.raises(TypeError):
+        # Declare an invalid preference definition that lacks required attributes, expecting a TypeError
+        class InvalidPreference(Preference):
+            desc = "This is invalid definition and must throw exception"
+
+
+# App Preferences ----------------------------------
 
 
 def test_app_preference_getter_and_setters(preferences: AppPreferences):
