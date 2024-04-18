@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from fastboot.settings import PREF_DEF_REGISTRY, AppPreferences, Preference
@@ -38,12 +40,21 @@ def setup_module(module) -> None:
         default = "default_value"
         validator = text_is_not_empty
 
+    class DummyPreferenceWithCallableValue(Preference):
+        name = "dummy_preference_with_callable_value"
+        default = math.sqrt
+        desc = """\
+            This is a dummy preference with a method passed as value
+            """
+
 
 def teardown_module(module):
     """teardown any state that was previously setup with a setup_module method."""
 
     # Remove dummy registered preferences
-    PREF_DEF_REGISTRY[:] = [pref for pref in PREF_DEF_REGISTRY if pref.__class__.__name__ not in ["DummyPreference"]]
+    PREF_DEF_REGISTRY[:] = [
+        pref for pref in PREF_DEF_REGISTRY if not pref.__class__.__name__.startswith("DummyPreference")
+    ]
 
 
 @pytest.fixture
