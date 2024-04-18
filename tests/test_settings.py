@@ -76,7 +76,7 @@ def test_invalid_pref_definition() -> None:
     """Test that error is raised if preference definition is invalid"""
 
     with pytest.raises(TypeError):
-        # Declare a invalid preference definition
+        # Declare an invalid preference definition that lacks required attributes, expecting a TypeError
         class InvalidPreference(Preference):
             desc = "This is invalid definition and must throw exception"
 
