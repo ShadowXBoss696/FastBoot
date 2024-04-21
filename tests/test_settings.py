@@ -1,4 +1,5 @@
 import math
+import textwrap
 
 import pytest
 
@@ -49,15 +50,23 @@ def setup_module(module) -> None:
 
     class DummyPreferenceWithLargeValue(Preference):
         name = "dummy_preference_with_large_value"
-        default = """\
+        default = textwrap.dedent(
+            """\
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
             dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
             ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
             fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
             mollit anim id est laborum.
             """
+        )
         desc = """\
             This is a dummy preference with a large text as value
+            """
+
+    class DummyPreferenceWithoutDefault(Preference):
+        name = "dummy_preference_without_default"
+        desc = """\
+            This is a dummy preference without a default value to ensure the default value is optional
             """
 
 
@@ -124,18 +133,16 @@ def test_app_preference_missing_configuration(preferences: AppPreferences) -> No
 def test_print_app_preference(preferences: AppPreferences) -> None:
     """Test app preference values are printed correctly."""
 
+    # Test printing app preference
     output: str = repr(preferences)
-    print(output)
 
     assert len(output) > 0, "No output printed"
     assert "dummy_pref" in output, "Dummy preference key is not printed correctly"
     assert "default_value" in output or "new_value" in output, "Dummy preference value is not printed correctly"
 
-    print()
-
+    # Test printing individual preference schema
     for pref in preferences._store.values():
         output = repr(pref)
-        print(output)
 
         assert pref.__class__.__name__ in output, "Preference definitions class name is not printed properly."
         assert str(pref._value) in output, "Preference definitions current value is not printed properly."
