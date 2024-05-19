@@ -3,7 +3,7 @@ import textwrap
 
 import pytest
 
-from fastboot.settings import PREF_DEF_REGISTRY, AppPreferences, Preference
+from fastboot.config import PREF_DEF_REGISTRY, AppPreferences, Preference
 
 # ---------------------------
 # Module Level Setup/TearDown
