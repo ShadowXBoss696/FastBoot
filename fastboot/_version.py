@@ -10,7 +10,7 @@ _build_script: pathlib.Path = pathlib.Path(__file__).parents[1] / "pyproject.tom
 
 if _build_script.exists():
     # We know we are running in development mode, as we have found the pyproject.toml file
-    __version__ = tomllib.loads(_build_script.read_text())["tool"]["poetry"]["version"] + ".dev"
+    __version__ = tomllib.loads(_build_script.read_text())["tool"]["poetry"]["version"]
 
 else:
     # Load metadata from installed package information
