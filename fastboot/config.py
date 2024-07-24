@@ -1,15 +1,7 @@
 import os
-import pathlib
 from abc import ABCMeta
 from collections.abc import Callable
 from typing import Any, Final
-
-PROJECT_ROOT: pathlib.Path = pathlib.Path(__file__).parents[1]
-PROJECT_CONFIG_TOML: pathlib.Path = PROJECT_ROOT / "pyproject.toml"
-
-DEVELOP: bool = PROJECT_CONFIG_TOML.exists()
-
-# ---------------------------------------------------------------------------------
 
 PREF_DEF_REGISTRY: list[type["Preference"]] = []
 
